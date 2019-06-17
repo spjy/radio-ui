@@ -1,5 +1,8 @@
 <template>
-  <div :class="`shadow-lg p-4 mt-2 mr-2 mb-2 rounded-lg w-auto inline-block ${selected ? 'border-2 border-green-400' : ''}`">
+  <div
+    :class="`shadow-lg p-4 mt-2 mr-2 mb-2 rounded-lg w-auto inline-block ${selected ? 'border-2 border-green-400' : ''}`"
+    @click="onSelectChannel"
+  >
     <div class="flex flex-col">
       <div class="mb-4">
         <div class="flex">
@@ -16,10 +19,13 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="mb-3">
+        <Indicators />
+      </div>
+      <div class="mb-3">
         <Slider />
       </div>
-      <div class="mt-3">
+      <div>
         <Table
           :txHistory="txHistory"
         />
@@ -31,11 +37,13 @@
 <script>
 import Slider from './Slider';
 import Table from './Table';
+import Indicators from './Indicators';
 
 export default {
   components: {
     Slider,
     Table,
+    Indicators,
   },
   props: {
     transmitting: {
@@ -58,6 +66,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  methods: {
+    onSelectChannel() {},
   },
 };
 </script>

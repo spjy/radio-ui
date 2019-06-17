@@ -1,8 +1,8 @@
 <template>
   <div class="border border-gray-100 rounded-lg shadow p-1">
     <div class="flex">
-      <span class="p-2">
-        V
+      <span class="p-3">
+        <img src="~@/assets/icons/volume-up.svg" alt="" style="width: 1rem">
       </span>
       <span>
         <input
