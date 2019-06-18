@@ -1,8 +1,11 @@
 <template>
   <div
-    :class="`shadow-lg p-4 mt-2 mr-2 mb-2 rounded-lg w-auto inline-block ${selected ? 'border-2 border-green-400' : ''}`"
+    :class="`shadow-lg p-4 mt-2 mr-2 mb-2 rounded-lg w-auto inline-block relative ${selected ? 'border-2 border-green-400' : ''}`"
     @click="onSelectChannel"
   >
+    <div class="expand absolute right-0 top-0 w-full text-right pr-1">
+      <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem">
+    </div>
     <div class="flex flex-col">
       <div class="mb-4">
         <div class="flex">
@@ -20,7 +23,7 @@
         </div>
       </div>
       <div class="mb-3">
-        <Indicators />
+        <!-- <Indicators /> -->
       </div>
       <div class="mb-3">
         <Slider />
