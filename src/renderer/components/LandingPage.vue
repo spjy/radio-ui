@@ -39,7 +39,7 @@
         <Card
           channel="Police North"
           lastTx="5D-112"
-          :selected="true"
+          :selected="false"
           :txHistory="
           [
             {
@@ -85,6 +85,22 @@
           ]"
         />
         <Card
+          channel="City Fire"
+          lastTx="F-173"
+          :selected="true"
+          :txHistory="
+          [
+            {
+              number: 'F-173',
+              name: 'R. Daniels'
+            },
+            {
+              number: 'F-121',
+              name: 'D. Thompson'
+            },
+          ]"
+        />
+        <Card
           channel="Highway South"
           lastTx="1103"
           :txHistory="
@@ -118,21 +134,24 @@
           <div
             class="mb-3"
           >
-            <div class="flex flex-wrap border rounded-lg p-4">
-              <div class="flex-initial cursor-pointer text-center bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mr-1 mb-1">
+            <div class="collapsible flex flex-wrap border rounded-lg overflow-y-hidden">
+              <div class="flex-initial cursor-pointer text-center text-sm bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mx-2 my-1">
                 Station 1 Page
               </div>
-              <div class="flex-initial cursor-pointer text-center bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mr-1 mb-1">
+              <div class="flex-initial cursor-pointer text-center text-sm bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mx-2 my-1">
                 Station 2 Page
               </div>
-              <div class="flex-initial cursor-pointer text-center bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mr-1 mb-1">
+              <div class="flex-initial cursor-pointer text-center text-sm bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mx-2 my-1">
                 Emergency Traffic
               </div>
-              <div class="flex-initial cursor-pointer text-center bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mr-1">
+              <div class="flex-initial cursor-pointer text-center text-sm bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mx-2 my-1">
                 Hold Traffic
               </div>
-              <div class="flex-initial cursor-pointer text-center bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2">
+              <div class="flex-initial cursor-pointer text-center text-sm bg-gray-100 hover:bg-red-300 text-gray-800 font-semibold border border-gray-400 rounded p-2 mx-2 my-1">
                 General Run
+              </div>
+              <div class="expand relative bottom-0 left-0 bg-gray-100 sticky w-full text-center p-1">
+                <img class="inline" src="~@/assets/icons/cheveron-outline-down.svg" alt="" style="width: 1rem">
               </div>
             </div>
           </div>
@@ -144,20 +163,31 @@
             activationType="Tx"
           >
             <template v-slot:Msel1>
-              <div class="divider bg-gray-400 my-2 rounded"></div>
-              <div class="">
-                Police North
-              </div>
-              <div class="divider bg-gray-400 my-2 rounded"></div>
               <div>
-                County East
+                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Police North
+              </div>
+              <div>
+                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> County East
               </div>
             </template>
             <template v-slot:Msel2>
-              Hi
+              <div>
+                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Police North
+              </div>
+              <div>
+                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Opts 1
+              </div>
             </template>
             <template v-slot:Msel3>
-              Bye
+              <div>
+                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> County East
+              </div>
+              <div>
+                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Opts 1
+              </div>
+              <div>
+                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Highway South
+              </div>
             </template>
           </Tabs>
           <SectionTitle title="Patch" />
@@ -168,13 +198,11 @@
             activationType="Patch"
           >
             <template v-slot:Patch1>
-              <div class="divider bg-gray-400 my-2 rounded"></div>
               <div class="">
-                Police North
+                <img class="inline" src="~@/assets/icons/exclamation-solid.svg" alt="" style="width: 1rem"> Police North
               </div>
-              <div class="divider bg-gray-400 my-2 rounded"></div>
               <div>
-                County East
+                <img class="inline" src="~@/assets/icons/exclamation-solid.svg" alt="" style="width: 1rem"> County East
               </div>
             </template>
             <template v-slot:Patch2>
@@ -217,5 +245,20 @@
 <style>
   .divider {
     height: 1px;
+  }
+
+  .collapsible {
+    height: 50%;
+    max-height: 100%;
+    -webkit-transition: height 0.5s;
+    transition: height 0.2s linear;
+  }
+  
+  .collapsible:hover {
+    height: 100%;
+  }
+
+  .expand {
+    opacity: .95;
   }
 </style>

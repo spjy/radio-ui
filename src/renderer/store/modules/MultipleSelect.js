@@ -1,12 +1,13 @@
 const state = {
-  select: false, // whether selecting channels for multiple select
+  selecting: false, // whether selecting channels for multiple select
   multipleSelect: null, // currently selected patch
   multipleSelections: {}, // storage for channels that are multi selected for each profile
+  txActive: false, // whether transmitting is true
 };
 
 const mutations = {
   TOGGLE_SELECTING_CHANNEL(state) {
-    state.select = !state.select;
+    state.selecting = !state.selecting;
   },
   SET_MULTIPLE_SELECT_PROFILE(state, profile) {
     state.multipleSelect = profile;
@@ -29,6 +30,9 @@ const mutations = {
       }
     }
   },
+  TOGGLE_TX_ACTIVE(state) {
+    state.txActive = !state.txActive;
+  },
 };
 
 const actions = {
@@ -40,6 +44,9 @@ const actions = {
   },
   toggleSelectedChannel({ commit }, channel) {
     commit('TOGGLE_SELECTED_CHANNEL', channel);
+  },
+  toggleTxActive({ commit }) {
+    commit('TOGGLE_TX_ACTIVE');
   },
 };
 
