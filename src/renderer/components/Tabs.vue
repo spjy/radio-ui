@@ -31,7 +31,7 @@
         </div>
         <div class="flex-1 w-full m-1">
           <div
-            :class="`${txActive ? 'action-active bg-red-600' : ''} cursor-pointer text-center bg-red-100 hover:bg-red-600 text-gray-800 font-semibold p-1 border border-gray-400 rounded p-1`"
+            :class="`${active ? 'action-active bg-red-600 text-white' : 'text-gray-800'} cursor-pointer text-center bg-red-100 hover:bg-red-600 hover:text-white font-semibold p-1 border border-gray-400 rounded p-1`"
             @click="onActivate"
           >
             {{ activationType }}
@@ -64,26 +64,51 @@ export default {
       if (this.activationType === 'Tx') {
         this.$store.dispatch('toggleSelectingChannel');
         this.$store.dispatch('setMultipleSelectProfile', tab);
+      } else if (this.activationType === 'Patch') {
+        this.$store.dispatch('toggleSelectingPatch');
+        this.$store.dispatch('setPatchesProfile', tab);
       }
     },
     onActivate() {
       if (this.activationType === 'Tx') {
         this.$store.dispatch('toggleTxActive');
+      } else if (this.activationType === 'Patch') {
+        this.$store.dispatch('togglePatchActive');
       }
     },
   },
   computed: {
     selecting() {
-      return this.$store.state.MultipleSelect.selecting;
+      if (this.activationType === 'Tx') {
+        return this.$store.state.MultipleSelect.selecting;
+      } else if (this.activationType === 'Patch') {
+        return this.$store.state.Patch.selecting;
+      }
+      return false;
     },
     multipleSelect() {
-      return this.$store.state.MultipleSelect.multipleSelect;
+      if (this.activationType === 'Tx') {
+        return this.$store.state.MultipleSelect.multipleSelect;
+      } else if (this.activationType === 'Patch') {
+        return this.$store.state.Patch.patch;
+      }
+      return null;
     },
     multipleSelections() {
-      return this.$store.state.MultipleSelect.multipleSelections;
+      if (this.activationType === 'Tx') {
+        return this.$store.state.MultipleSelect.multipleSelections;
+      } else if (this.activationType === 'Patch') {
+        return this.$store.state.Patch.patches;
+      }
+      return {};
     },
-    txActive() {
-      return this.$store.state.MultipleSelect.txActive;
+    active() {
+      if (this.activationType === 'Tx') {
+        return this.$store.state.MultipleSelect.txActive;
+      } else if (this.activationType === 'Patch') {
+        return this.$store.state.Patch.patchActive;
+      }
+      return false;
     },
   },
   props: {
