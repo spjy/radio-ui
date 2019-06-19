@@ -6,7 +6,7 @@
       </span>
       <span>
         <input
-          class="slider p-2 pt-3"
+          class="slider p-2 pt-4"
           v-model="value"
           type="range"
           min="1"
@@ -31,19 +31,37 @@ export default {
 </script>
 
 <style>
-  .slider::-webkit-slider-thumb {
+  input[type=range].slider {
     -webkit-appearance: none;
-    appearance: none;
-    width: 21px;
-    height: 25px;
-    background: #4CAF50;
+  }
+
+  input[type=range].slider::-webkit-slider-runnable-track {
+    height: 5px;
+    background: #e6e6e6;
+    border: none;
+    border-radius: 9px;
+  }
+
+  input[type=range].slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 3px #fff solid;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: rgb(119, 119, 119);
+    margin-top: -7px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  input[type=range].slider:hover::-webkit-slider-thumb {
     cursor: pointer;
   }
 
-  .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
+  input[type=range].slider:focus {
+    outline: none;
+  }
+
+  input[type=range].slider:hover::-webkit-slider-runnable-track {
+    background: #c9c9c9;
   }
 </style>
