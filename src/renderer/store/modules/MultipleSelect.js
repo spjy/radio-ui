@@ -6,12 +6,15 @@ const state = {
 };
 
 const mutations = {
+  /** Toggler for selecting state for multiple selection */
   TOGGLE_SELECTING_CHANNEL(state) {
     state.selecting = !state.selecting;
   },
+  /** Setter for selecting which profile to append or unappend */
   SET_MULTIPLE_SELECT_PROFILE(state, profile) {
     state.multipleSelect = profile;
   },
+  /** Toggler for selecting certain channel. */
   TOGGLE_SELECTED_CHANNEL(state, channel) {
     const { multipleSelect, multipleSelections } = state;
 
@@ -30,6 +33,7 @@ const mutations = {
       }
     }
   },
+  /** Toggling whether broadcasting to all selected channels in profile or not */
   TOGGLE_TX_ACTIVE(state) {
     state.txActive = !state.txActive;
   },
