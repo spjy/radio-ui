@@ -7,7 +7,7 @@
         :key="tab"
       >
         <a
-          :class="`bg-white inline-block py-2 px-4 ${selected === tab ? 'rounded-t border-l border-t border-r text-blue-700 font-semibold bg-blue-100' : 'text-blue-500 hover:text-blue-800'}`"
+          :class="`bg-white inline-block py-2 px-4 ${selected === tab ? 'rounded-t border-l border-t border-r text-blue-700 font-semibold bg-gray-100' : 'text-blue-500 hover:text-blue-800'}`"
           href="#"
           @click="onSelectTab(tab, $event)"
         >
@@ -23,7 +23,7 @@
       <div class="flex mb-3">
         <div class="flex-1 w-full m-1">
           <div
-            :class="`${selecting ? 'select-active bg-gray-200' : ''} cursor-pointer text-center bg-white hover:bg-gray-100 text-gray-800 font-semibold p-1 border border-gray-400 rounded p-1`"
+            :class="`${selecting ? 'select-active bg-gray-100' : ''} cursor-pointer text-center bg-white hover:bg-gray-100 text-gray-800 font-semibold p-1 border border-gray-400 rounded p-1`"
             @click="onSelect(tab)"
           >
             Select
