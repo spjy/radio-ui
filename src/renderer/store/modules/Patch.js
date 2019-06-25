@@ -1,20 +1,56 @@
 const state = {
-  main: 0,
+  selecting: false,
+  patch: null,
+  patches: {},
+  patchActive: false,
 };
 
 const mutations = {
-  DECREMENT_MAIN_COUNTER(state) {
-    state.main -= 1;
+  /** Toggler for selecting state for patch */
+  TOGGLE_SELECTING_PATCH(state) {
+    state.selecting = !state.selecting;
   },
-  INCREMENT_MAIN_COUNTER(state) {
-    state.main += 1;
+  /** Setter for selecting patch profile */
+  SET_PATCHES_PROFILE(state, profile) {
+    state.patch = profile;
+  },
+  /** Toggler for selecting a channel to patch */
+  TOGGLE_PATCHED_CHANNEL(state, channel) {
+    const { patches, patch } = state;
+
+    if (!patches[patch]) {
+      // Case for if the profile is not yet created
+      patches[patch] = [channel];
+    } else if (patches[patch]) {
+      // Case for if the profile is created; now check if channel is already selected/
+      if (!patches[patch].includes(channel)) {
+        // If selection profile does not contain the channel, insert channel
+        patches[patch].push(channel);
+      } else if (patches[patch].includes(channel)) {
+        // If selection profile not contain the channel, remove channel
+        patches[patch]
+          .splice(patches[patch].indexOf(channel), 0);
+      }
+    }
+  },
+  /** Toggle whether patch is active or not */
+  TOGGLE_PATCH_ACTIVE(state) {
+    state.patchActive = !state.patchActive;
   },
 };
 
 const actions = {
-  someAsyncTask({ commit }) {
-    // do something async
-    commit('INCREMENT_MAIN_COUNTER');
+  toggleSelectingPatch({ commit }) {
+    commit('TOGGLE_SELECTING_PATCH');
+  },
+  setPatchesProfile({ commit }, profile) {
+    commit('SET_PATCHES_PROFILE', profile);
+  },
+  togglePatchChannel({ commit }, channel) {
+    commit('TOGGLE_PATCHED_CHANNEL', channel);
+  },
+  togglePatchActive({ commit }) {
+    commit('TOGGLE_PATCH_ACTIVE');
   },
 };
 
