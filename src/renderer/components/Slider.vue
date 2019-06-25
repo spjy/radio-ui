@@ -9,7 +9,7 @@
           class="slider p-2 pt-4"
           v-model="value"
           type="range"
-          min="1"
+          min="0"
           max="100"
         />
       </span>
