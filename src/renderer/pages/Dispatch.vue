@@ -1,15 +1,6 @@
 <template>
-  <div class="">
-    <div class="flex bg-gray-100 shadow-md p-3 justify-between">
-      <div class="flex-initial">
-        <div class="font text-3xl">
-          Radio Console
-        </div>
-      </div>
-      <div class="flex-grow text-right font-bold text-3xl">
-        <Clock />
-      </div>
-    </div>
+  <div>
+    <Navbar page="Dispatch Console" />
     <div class="flex p-4">
       <div class="pb-6 mr-2 flex-initial">
         <SectionTitle title="Channels" />
@@ -219,17 +210,15 @@
 </template>
 
 <script>
-  import SystemInformation from './LandingPage/SystemInformation';
-  import Clock from './Clock';
-  import Card from './Card';
-  import Tabs from './Tabs';
-  import SectionTitle from './SectionTitle';
+  import Navbar from '../components/Global/Navbar';
+  import Card from '../components/Card';
+  import Tabs from '../components/Tabs';
+  import SectionTitle from '../components/SectionTitle';
 
   export default {
     name: 'landing-page',
     components: {
-      SystemInformation,
-      Clock,
+      Navbar,
       Card,
       Tabs,
       SectionTitle,

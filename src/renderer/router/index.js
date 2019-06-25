@@ -7,8 +7,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'landing-page',
-      component: require('@/components/LandingPage').default,
+      name: 'Picker',
+      component: require('@/pages/Picker').default,
+    },
+    {
+      path: '/dispatch',
+      name: 'Dispatch',
+      component: require('@/pages/Dispatch').default,
+    },
+    {
+      path: '/portable',
+      name: 'portable',
+      component: require('@/pages/Portable').default,
     },
     {
       path: '*',
