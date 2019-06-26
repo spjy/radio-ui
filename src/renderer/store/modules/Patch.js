@@ -1,7 +1,11 @@
 const state = {
   selecting: false,
-  patch: null,
-  patches: {},
+  patch: 'Patch1',
+  patches: {
+    Patch1: [],
+    Patch2: [],
+    Patch3: [],
+  },
   patchActive: false,
 };
 
@@ -29,7 +33,7 @@ const mutations = {
       } else if (patches[patch].includes(channel)) {
         // If selection profile not contain the channel, remove channel
         patches[patch]
-          .splice(patches[patch].indexOf(channel), 0);
+          .splice(patches[patch].indexOf(channel), 1);
       }
     }
   },

@@ -30,7 +30,6 @@
         <Card
           channel="Police North"
           lastTx="5D-112"
-          :selected="false"
           :txHistory="
           [
             {
@@ -54,7 +53,6 @@
         <Card
           channel="County East"
           lastTx="1801"
-          :selected="true"
           :txHistory="
           [
             {
@@ -78,7 +76,6 @@
         <Card
           channel="City Fire"
           lastTx="F-173"
-          :selected="true"
           :txHistory="
           [
             {
@@ -154,30 +151,18 @@
             activationType="Tx"
           >
             <template v-slot:Msel1>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Police North
-              </div>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> County East
+              <div v-for="channel in channelsMultipleSelected['Msel1']" :key="channel">
+                → {{ channel }}
               </div>
             </template>
             <template v-slot:Msel2>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Police North
-              </div>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Opts 1
+              <div v-for="channel in channelsMultipleSelected['Msel2']" :key="channel">
+                → {{ channel }}
               </div>
             </template>
             <template v-slot:Msel3>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> County East
-              </div>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Opts 1
-              </div>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-outline.svg" alt="" style="width: 1rem"> Highway South
+              <div v-for="channel in channelsMultipleSelected['Msel3']" :key="channel">
+                → {{ channel }}
               </div>
             </template>
           </Tabs>
@@ -189,18 +174,19 @@
             activationType="Patch"
           >
             <template v-slot:Patch1>
-              <div class="">
-                <img class="inline" src="~@/assets/icons/exclamation-solid.svg" alt="" style="width: 1rem"> Police North
-              </div>
-              <div>
-                <img class="inline" src="~@/assets/icons/exclamation-solid.svg" alt="" style="width: 1rem"> County East
+              <div v-for="channel in channelsPatched['Patch1']" :key="channel">
+                → {{ channel }}
               </div>
             </template>
             <template v-slot:Patch2>
-              Hi
+              <div v-for="channel in channelsPatched['Patch2']" :key="channel">
+                → {{ channel }}
+              </div>
             </template>
             <template v-slot:Patch3>
-              Bye
+              <div v-for="channel in channelsPatched['Patch3']" :key="channel">
+                → {{ channel }}
+              </div>
             </template>
           </Tabs>
         </div>
@@ -226,6 +212,14 @@
     methods: {
       open(link) {
         this.$electron.shell.openExternal(link);
+      },
+    },
+    computed: {
+      channelsMultipleSelected() {
+        return this.$store.state.MultipleSelect.multipleSelections;
+      },
+      channelsPatched() {
+        return this.$store.state.Patch.patches;
       },
     },
   };

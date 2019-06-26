@@ -1,7 +1,11 @@
 const state = {
   selecting: false, // whether selecting channels for multiple select
-  multipleSelect: null, // currently selected patch
-  multipleSelections: {}, // storage for channels that are multi selected for each profile
+  multipleSelect: 'Msel1', // currently selected patch
+  multipleSelections: {
+    Msel1: [],
+    Msel2: [],
+    Msel3: [],
+  }, // storage for channels that are multi selected for each profile
   txActive: false, // whether transmitting is true
 };
 
@@ -27,9 +31,9 @@ const mutations = {
         // If selection profile does not contain the channel, insert channel
         multipleSelections[multipleSelect].push(channel);
       } else if (multipleSelections[multipleSelect].includes(channel)) {
-        // If selection profile not contain the channel, remove channel
+        // If selection profile contains the channel, remove channel
         multipleSelections[multipleSelect]
-          .splice(multipleSelections[multipleSelect].indexOf(channel), 0);
+          .splice(multipleSelections[multipleSelect].indexOf(channel), 1);
       }
     }
   },
