@@ -19,11 +19,11 @@
         </div>
       </div>
       <div
-        :class="`w-full text-center shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
+        :class="`w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
       >
         <SectionTitle title="Channel" />
         <div class="relative">
-          <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-4 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+          <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-3 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
             <option>Police South</option>
             <option>Police North</option>
             <option>Opts 1</option>
@@ -32,6 +32,48 @@
             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
           </div>
         </div>
+      </div>
+      <div
+        :class="`w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
+      >
+        <SectionTitle title="Pager" />
+        <div class="flex">
+          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
+            <div class="mb-2 text-sm text-gray-600">Volunteer Fire</div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="switcher round"></span>
+            </label>
+          </div>
+          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
+            <div class="mb-2 text-sm text-gray-600">Volunteer EMS</div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="switcher round"></span>
+            </label>
+          </div>
+          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
+            <div class="mb-2 text-sm text-gray-600">Fire</div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="switcher round"></span>
+            </label>
+          </div>
+          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
+            <div class="mb-2 text-sm text-gray-600">Medical Run</div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="switcher round"></span>
+            </label>
+          </div>
+        </div>
+        <!-- <div class="flex">
+          <div
+            :class="`${tx ? 'select-active bg-gray-200' : ''} cursor-pointer text-center bg-white hover:bg-gray-200 text-gray-800 border border-gray-400 rounded p-2 mx-2 my-2 inline`"
+          >
+            Volunteer 1
+          </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -88,5 +130,68 @@ export default {
   100% {
     box-shadow: 0 0 0 7px rgba(179, 67, 67, 0);
   }
+}
+
+/* The switch - the box around the switcher */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 22px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The switcher */
+.switcher {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switcher:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .switcher {
+  background-color: #2196F3;
+}
+
+input:focus + .switcher {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .switcher:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded switchers */
+.switcher.round {
+  border-radius: 34px;
+}
+
+.switcher.round:before {
+  border-radius: 50%;
 }
 </style>
