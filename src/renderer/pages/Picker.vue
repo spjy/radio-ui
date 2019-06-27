@@ -1,17 +1,22 @@
 <template>
-  <div class="bg-gray-200 flex flex-col h-screen content-center text-center p-4">
-    <router-link
-      to="/dispatch"
-      :class="`cursor-pointer text-center bg-white hover:bg-gray-100 text-gray-800 font-semibold p-1 m-2 border border-gray-400 rounded `"
-    >
-      Dispatch Console
-    </router-link>
-    <router-link
-      to="/portable"
-      :class="`cursor-pointer text-center bg-white hover:bg-gray-100 text-gray-800 font-semibold p-1 m-2 border border-gray-400 rounded `"
-    >
-      Portable Radio
-    </router-link>
+  <div class="bg-gray-200 flex flex-col h-screen content-center p-12 text-center justify-center">
+    <div class="text-4xl">Bandwidth Technologies</div>
+    <div class="mb-6 text-gray-600">Equipping emergency services with reliable radio communications.</div>
+    
+    <div class="flex text-center justify-center">
+      <router-link
+        to="/dispatch"
+        class="inline cursor-pointer text-center bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full mr-4"
+      >
+        Dispatch Console
+      </router-link>
+      <router-link
+        to="/portable"
+        class="inline cursor-pointer text-center bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-full"
+      >
+        Portable Radio
+      </router-link>
+    </div>
   </div>
 </template>
 
