@@ -1,10 +1,86 @@
-import { app, BrowserWindow } from 'electron' // eslint-disable-line
+import electron from 'electron' // eslint-disable-line
 import '../renderer/store';
+const { app, BrowserWindow, Menu } = electron;
 
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
+
+const template = [
+  // { role: 'appMenu' }
+  ...(process.platform === 'darwin' ? [{
+    label: app.getName(),
+    submenu: [
+      { role: 'about' },
+      { type: 'separator' },
+      { role: 'services' },
+      { type: 'separator' },
+      { role: 'hide' },
+      { role: 'hideothers' },
+      { role: 'unhide' },
+      { type: 'separator' },
+      { role: 'quit' },
+    ],
+  }] : []),
+  // { role: 'fileMenu' }
+  {
+    label: 'File',
+    submenu: [],
+  },
+  // { role: 'editMenu' }
+  {
+    label: 'Edit',
+    submenu: [
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      { type: 'separator' },
+      { label: 'Settings' },
+    ],
+  },
+  // { role: 'viewMenu' }
+  {
+    label: 'View',
+    submenu: [
+      { role: 'reload' },
+      { role: 'forcereload' },
+      { role: 'toggledevtools' },
+      { type: 'separator' },
+      { role: 'resetzoom' },
+      { role: 'zoomin' },
+      { role: 'zoomout' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' },
+    ],
+  },
+  // { role: 'windowMenu' }
+  {
+    label: 'Window',
+    submenu: [
+      { role: 'minimize' },
+      { role: 'zoom' },
+    ],
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'About Aeoss',
+        click() {
+          electron.shell.openExternalSync('https://electronjs.org');
+        },
+      },
+    ],
+  },
+];
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
+
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\') // eslint-disable-line
 }
