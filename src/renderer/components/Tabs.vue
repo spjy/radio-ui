@@ -80,33 +80,33 @@ export default {
   computed: {
     selecting() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.MultipleSelect.selecting;
+        return this.$store.state.multiselect.selecting;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.Patch.selecting;
+        return this.$store.state.patch.selecting;
       }
       return false;
     },
     multipleSelect() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.MultipleSelect.multipleSelect;
+        return this.$store.state.multiselect.multipleSelect;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.Patch.patch;
+        return this.$store.state.patch.patch;
       }
       return null;
     },
     multipleSelections() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.MultipleSelect.multipleSelections;
+        return this.$store.state.multiselect.multipleSelections;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.Patch.patches;
+        return this.$store.state.patch.patches;
       }
       return {};
     },
     active() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.MultipleSelect.txActive;
+        return this.$store.state.multiselect.txActive;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.Patch.patchActive;
+        return this.$store.state.patch.patchActive;
       }
       return false;
     },

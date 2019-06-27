@@ -216,10 +216,10 @@
     },
     computed: {
       channelsMultipleSelected() {
-        return this.$store.state.MultipleSelect.multipleSelections;
+        return this.$store.state.multiselect.multipleSelections;
       },
       channelsPatched() {
-        return this.$store.state.Patch.patches;
+        return this.$store.state.patch.patches;
       },
     },
   };

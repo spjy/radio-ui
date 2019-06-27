@@ -79,26 +79,26 @@ export default {
   },
   computed: {
     multipleSelectSelecting() {
-      return this.$store.state.MultipleSelect.selecting;
+      return this.$store.state.multiselect.selecting;
     },
     patchSelecting() {
-      return this.$store.state.Patch.selecting;
+      return this.$store.state.patch.selecting;
     },
     multipleSelectProfile() {
-      return this.$store.state.MultipleSelect.multipleSelect;
+      return this.$store.state.multiselect.multipleSelect;
     },
     patchProfile() {
-      return this.$store.state.Patch.patch;
+      return this.$store.state.patch.patch;
     },
     multipleSelectSelected() {
-      if (this.$store.state.MultipleSelect
+      if (this.$store.state.multiselect
         .multipleSelections[this.multipleSelectProfile].includes(this.channel)) {
         return true;
       }
       return false;
     },
     patchSelected() {
-      if (this.$store.state.Patch
+      if (this.$store.state.patch
         .patches[this.patchProfile].includes(this.channel)) {
         return true;
       }
