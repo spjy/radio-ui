@@ -1,13 +1,13 @@
 <template>
   <div>
-    <ul class="flex border-b overflow-x-scroll overflow-y-hidden">
+    <ul class="flex border overflow-x-auto overflow-y-hidden rounded-t">
       <li
         v-for="tab in tabs"
         :class="`mr-1 ${selected === tab ? '-mb-px' : ''}`"
         :key="tab"
       >
         <a
-          :class="`bg-white inline-block py-2 px-4 ${selected === tab ? 'rounded-t border-l border-t border-r text-blue-700 font-semibold bg-gray-100' : 'text-blue-500 hover:text-blue-800'}`"
+          :class="`bg-white inline-block py-2 px-4 ${selected === tab ? 'text-blue-700 font-semibold border-b-4 border-blue-400' : 'text-black-500 hover:text-blue-800'}`"
           href="#"
           @click="onSelectTab(tab, $event)"
         >
@@ -24,7 +24,7 @@
         <div class="flex-1 w-full m-1">
           <div
             :class="`${selecting ? 'select-active bg-gray-200' : ''} cursor-pointer text-center bg-white hover:bg-gray-200 text-gray-800 font-semibold p-1 border border-gray-400 rounded p-1`"
-            @click="onSelect(tab)"
+            @click="onSelectAction(tab)"
           >
             Select
           </div>
@@ -54,13 +54,34 @@ export default {
     onSelectTab(tab, e) {
       e.preventDefault();
 
+      // Change tab view
       if (this.selected === tab) {
         this.selected = '';
       } else {
         this.selected = tab;
       }
+
+      // Disable selecting if changing tabs
+      if (this.selecting && this.activationType === 'Tx') {
+        this.$store.dispatch('toggleSelectingChannel');
+      } else if (this.selecting && this.activationType === 'Patch') {
+        this.$store.dispatch('toggleSelectingPatch');
+      }
+
+      if (this.active && this.activationType === 'Tx') {
+        this.$store.dispatch('toggleTxActive');
+      } else if (this.active && this.activationType === 'Patch') {
+        this.$store.dispatch('togglePatchActive');
+      }
+
+      // Change profile when switching tabs
+      if (this.activationType === 'Tx') {
+        this.$store.dispatch('setMultipleSelectProfile', tab);
+      } else if (this.activationType === 'Patch') {
+        this.$store.dispatch('setPatchesProfile', tab);
+      }
     },
-    onSelect(tab) {
+    onSelectAction(tab) {
       if (this.activationType === 'Tx') {
         this.$store.dispatch('toggleSelectingChannel');
         this.$store.dispatch('setMultipleSelectProfile', tab);

@@ -117,8 +117,8 @@
         />
       </div>
       <div class="pb-6 flex-1">
-        <SectionTitle title="Tones" />
         <div class="flex flex-col">
+          <!-- <SectionTitle title="Tones" />
           <div
             class="mb-3"
           >
@@ -139,10 +139,10 @@
                 General Run
               </div>
               <div class="expand relative bottom-0 left-0 bg-gray-100 sticky w-full text-center p-1">
-                <img class="inline" src="~@/assets/icons/cheveron-outline-down.svg" alt="" style="width: 1rem">
+                v
               </div>
             </div>
-          </div>
+          </div> -->
           <SectionTitle title="Multiple Select" />
           <Tabs
             class="mb-3"
@@ -152,17 +152,18 @@
           >
             <template v-slot:Msel1>
               <div v-for="channel in channelsMultipleSelected['Msel1']" :key="channel">
-                → {{ channel }}
+                <TxIndicator />
+                {{ channel }}
               </div>
             </template>
             <template v-slot:Msel2>
               <div v-for="channel in channelsMultipleSelected['Msel2']" :key="channel">
-                → {{ channel }}
+                <TxIndicator /> {{ channel }}
               </div>
             </template>
             <template v-slot:Msel3>
               <div v-for="channel in channelsMultipleSelected['Msel3']" :key="channel">
-                → {{ channel }}
+                <TxIndicator /> {{ channel }}
               </div>
             </template>
           </Tabs>
@@ -175,17 +176,17 @@
           >
             <template v-slot:Patch1>
               <div v-for="channel in channelsPatched['Patch1']" :key="channel">
-                → {{ channel }}
+                <TxIndicator /> {{ channel }}
               </div>
             </template>
             <template v-slot:Patch2>
               <div v-for="channel in channelsPatched['Patch2']" :key="channel">
-                → {{ channel }}
+                <TxIndicator /> {{ channel }}
               </div>
             </template>
             <template v-slot:Patch3>
               <div v-for="channel in channelsPatched['Patch3']" :key="channel">
-                → {{ channel }}
+                <TxIndicator /> {{ channel }}
               </div>
             </template>
           </Tabs>
@@ -200,6 +201,7 @@
   import Card from '../components/Card';
   import Tabs from '../components/Tabs';
   import SectionTitle from '../components/SectionTitle';
+  import TxIndicator from '../components/TxIndicator';
 
   export default {
     name: 'landing-page',
@@ -208,6 +210,7 @@
       Card,
       Tabs,
       SectionTitle,
+      TxIndicator,
     },
     methods: {
       open(link) {
