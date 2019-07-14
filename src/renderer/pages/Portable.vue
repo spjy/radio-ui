@@ -19,7 +19,7 @@
         </div>
       </div>
       <div
-        :class="`w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
+        class="w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block"
       >
         <SectionTitle title="Channel" />
         <div class="relative">
