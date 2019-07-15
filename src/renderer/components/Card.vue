@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`shadow p-4 mt-2 mr-2 mb-2 rounded-lg w-auto inline-block relative ${multipleSelectSelecting || patchSelecting ? 'select-mode cursor-pointer' : ''}`"
+    :class="`shadow p-4 mt-2 mr-2 mb-2 rounded-lg w-auto inline-block relative ${multipleSelectSelecting || patchSelecting ? 'select-mode cursor-pointer select-none' : ''}`"
     @click="onSelectChannel"
   >
     <!-- ${multipleSelectSelecting || patchSelecting ? 'border-2 border-green-400' : ''} -->
@@ -116,7 +116,7 @@ export default {
 
 <style scoped>
 .select-mode:hover {
-  box-shadow: 0 0 1px green;
+  box-shadow: 0 0 5px green;
 }
 
 .fade-enter-active, .fade-leave-active {

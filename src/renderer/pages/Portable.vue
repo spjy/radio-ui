@@ -23,10 +23,9 @@
       >
         <SectionTitle title="Channel" />
         <div class="relative">
-          <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-3 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-            <option>Police South</option>
-            <option>Police North</option>
-            <option>Opts 1</option>
+          <selectclass="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-3 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+            <option selected disabled>Select Channel</option>
+            <option v-for="channel in community.channels" :value="channel" :key="channel">{{ channel }}</option>
           </select>
           <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -36,44 +35,18 @@
       <div
         :class="`w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
       >
+        <SectionTitle title="Scanner" />
+        <Enabler
+          :channels="community.channels ? community.channels : []"
+        />
+      </div>
+      <div
+        :class="`w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
+      >
         <SectionTitle title="Pager" />
-        <div class="flex">
-          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
-            <div class="mb-2 text-sm text-gray-600">Volunteer Fire</div>
-            <label class="switch">
-              <input type="checkbox">
-              <span class="switcher round"></span>
-            </label>
-          </div>
-          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
-            <div class="mb-2 text-sm text-gray-600">Volunteer EMS</div>
-            <label class="switch">
-              <input type="checkbox">
-              <span class="switcher round"></span>
-            </label>
-          </div>
-          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
-            <div class="mb-2 text-sm text-gray-600">Fire</div>
-            <label class="switch">
-              <input type="checkbox">
-              <span class="switcher round"></span>
-            </label>
-          </div>
-          <div class="border border-gray-300 rounded shadow py-3 px-3 mr-2 mb-2 inline text-center">
-            <div class="mb-2 text-sm text-gray-600">Medical Run</div>
-            <label class="switch">
-              <input type="checkbox">
-              <span class="switcher round"></span>
-            </label>
-          </div>
-        </div>
-        <!-- <div class="flex">
-          <div
-            :class="`${tx ? 'select-active bg-gray-200' : ''} cursor-pointer text-center bg-white hover:bg-gray-200 text-gray-800 border border-gray-400 rounded p-2 mx-2 my-2 inline`"
-          >
-            Volunteer 1
-          </div>
-        </div> -->
+        <Enabler
+          :channels="community.tones ? Object.keys(community.tones) : []"
+        />
       </div>
     </div>
   </div>
@@ -82,11 +55,13 @@
 <script>
 import Navbar from '../components/Global/Navbar';
 import SectionTitle from '../components/SectionTitle';
+import Enabler from '../components/Enabler';
 
 export default {
   components: {
     Navbar,
     SectionTitle,
+    Enabler,
   },
   data() {
     return {
@@ -100,6 +75,14 @@ export default {
     },
     onEmergency() {
       this.emergency = !this.emergency;
+    },
+  },
+  computed: {
+    community() {
+      if (this.$store.state.session) {
+        return this.$store.state.session.community;
+      }
+      return null;
     },
   },
 };

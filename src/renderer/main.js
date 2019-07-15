@@ -10,13 +10,8 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
 Vue.http = Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 
-Vue.prototype.$ws = (ip) => {
+Vue.prototype.$ws = async (ip) => {
   const ws = new WebSocket(ip);
-  let lastMessage;
-
-  ws.onopen = () => {
-
-  };
 
   ws.onclose = (error) => {
     switch (error.code) {
@@ -31,25 +26,7 @@ Vue.prototype.$ws = (ip) => {
     }
   };
 
-  ws.onmessage = (data) => {
-    let json;
-
-    try {
-      json = JSON.parse(data);
-    } catch (error) {
-      //
-    }
-
-    if (json) {
-      lastMessage = json;
-    }
-  };
-
-  const send = (message) => {
-    ws.send(message);
-  };
-
-  return [lastMessage, send];
+  return ws;
 };
 
 /* eslint-disable no-new */

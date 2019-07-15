@@ -5,7 +5,8 @@
       <div class="pb-6 mr-2 flex-initial">
         <SectionTitle title="Channels" />
         <Card
-          channel="Police South"
+          v-for="channel in community.channels"
+          :channel="channel"
           lastTx="1103"
           :txHistory="
           [
@@ -26,29 +27,7 @@
               name: 'S. Young'
             },
           ]"
-        />
-        <Card
-          channel="Police North"
-          lastTx="5D-112"
-          :txHistory="
-          [
-            {
-              number: '5D-112',
-              name: 'J. Juniker'
-            },
-            {
-              number: '1112',
-              name: 'C. Moyer'
-            },
-            {
-              number: '1117',
-              name: 'S. Young'
-            },
-            {
-              number: '1103',
-              name: 'W. Pumpernichols'
-            },
-          ]"
+          :key="channel"
         />
         <Card
           channel="County East"
@@ -223,6 +202,12 @@
       },
       channelsPatched() {
         return this.$store.state.patch.patches;
+      },
+      community() {
+        if (this.$store.state.session) {
+          return this.$store.state.session.community;
+        }
+        return null;
       },
     },
   };

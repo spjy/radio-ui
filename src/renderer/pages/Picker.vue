@@ -59,6 +59,33 @@ export default {
   components: {
     Navbar,
   },
+  async created() {
+    const ws = await this.$ws('ws://localhost:8080');
+
+    ws.onopen = () => {
+      console.log(ws);
+
+      ws.send(JSON.stringify({
+        request: 'clientCount',
+      }));
+
+      ws.onmessage = ({ data }) => {
+        let json;
+
+        try {
+          json = JSON.parse(data);
+        } catch (error) {
+          console.log(error);
+        }
+
+        if (json.type === 'community') {
+          console.log(json.payload);
+          this.$store.dispatch('setSessionCommunity', json.payload);
+          console.log(this.$store.state.session);
+        }
+      };
+    };
+  },
 };
 </script>
 
