@@ -1,6 +1,8 @@
 import electron from 'electron' // eslint-disable-line
-import '../renderer/store';
-const { app, BrowserWindow, Menu } = electron;
+import store from '../renderer/store';
+const {
+  app, BrowserWindow, Menu, globalShortcut,
+} = electron;
 
 /**
  * Set `__static` path to static files in production
@@ -94,6 +96,17 @@ function createWindow() {
   /**
    * Initial window options
    */
+
+  const { hotkeys } = store.state.session;
+
+  Object.keys(hotkeys.main).forEach((hotkey) => {
+    if (hotkeys.main[hotkey] && hotkeys.main[hotkey].length > 0) {
+      const ret = globalShortcut.register(hotkeys.main[hotkey].join('+'), () => {
+        console.log(`${hotkeys.main[hotkey].join('+')} is pressed`);
+      });
+    }
+  });
+
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,

@@ -10,7 +10,7 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
 Vue.http = Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 
-Vue.prototype.$ws = async (ip) => {
+Vue.prototype.$ws = (ip) => {
   const ws = new WebSocket(ip);
 
   ws.onclose = (error) => {

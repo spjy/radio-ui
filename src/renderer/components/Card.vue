@@ -18,9 +18,9 @@
     <div class="flex flex-col">
       <div class="mb-4">
         <div class="flex">
-          <!-- <div class="flex-initial pr-4">
+          <div class="flex-initial pr-4">
             <div class="rounded-full h-12 w-12 flex items-center justify-center bg-blue-200 shadow-md hover:bg-red-400">Tx</div>
-          </div> -->
+          </div>
           <div class="flex-initial">
             <div class="text-lg font-bold">
               {{ channel }}

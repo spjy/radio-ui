@@ -23,7 +23,7 @@
       >
         <SectionTitle title="Channel" />
         <div class="relative">
-          <selectclass="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-3 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+          <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-3 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
             <option selected disabled>Select Channel</option>
             <option v-for="channel in community.channels" :value="channel" :key="channel">{{ channel }}</option>
           </select>

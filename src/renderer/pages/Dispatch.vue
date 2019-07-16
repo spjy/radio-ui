@@ -29,7 +29,7 @@
           ]"
           :key="channel"
         />
-        <Card
+        <!-- <Card
           channel="County East"
           lastTx="1801"
           :txHistory="
@@ -93,7 +93,7 @@
         <Card
           channel="Opts 1"
           lastTx="--"
-        />
+        /> -->
       </div>
       <div class="pb-6 flex-1">
         <div class="flex flex-col">
