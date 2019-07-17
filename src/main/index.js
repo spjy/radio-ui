@@ -101,7 +101,7 @@ function createWindow() {
 
   Object.keys(hotkeys.main).forEach((hotkey) => {
     if (hotkeys.main[hotkey] && hotkeys.main[hotkey].length > 0) {
-      const ret = globalShortcut.register(hotkeys.main[hotkey].join('+'), () => {
+      globalShortcut.register(hotkeys.main[hotkey].join('+'), () => {
         console.log(`${hotkeys.main[hotkey].join('+')} is pressed`);
       });
     }

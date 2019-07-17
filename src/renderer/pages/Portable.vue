@@ -65,13 +65,12 @@ export default {
   },
   data() {
     return {
-      tx: false,
       emergency: false,
     };
   },
   methods: {
     onTx() {
-      this.tx = !this.tx;
+      this.$store.dispatch('portable/setTx', !this.tx);
     },
     onEmergency() {
       this.emergency = !this.emergency;
@@ -84,6 +83,36 @@ export default {
       }
       return null;
     },
+    tx() {
+      return this.$store.state.portable.tx;
+    },
+  },
+  created() {
+    const ws = this.$ws('ws://localhost:8080');
+
+    ws.onopen = () => {
+      console.log(ws);
+
+      ws.send(JSON.stringify({
+        request: 'clientCount',
+      }));
+
+      ws.onmessage = ({ data }) => {
+        let json;
+
+        try {
+          json = JSON.parse(data);
+        } catch (error) {
+          console.log(error);
+        }
+
+        if (json.type === 'community') {
+          console.log(json.payload);
+          this.$store.dispatch('setSessionCommunity', json.payload);
+          console.log(this.$store.state.session);
+        }
+      };
+    };
   },
 };
 </script>
