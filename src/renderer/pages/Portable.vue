@@ -35,17 +35,15 @@
       <div
         :class="`w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
       >
-        <SectionTitle title="Scanner" />
-        <Enabler
+        <Scanner
           :channels="community.channels ? community.channels : []"
         />
       </div>
       <div
         :class="`w-full shadow p-4 mt-2 mr-2 mb-2 rounded-lg inline-block relative`"
       >
-        <SectionTitle title="Pager" />
-        <Enabler
-          :channels="community.tones ? Object.keys(community.tones) : []"
+        <Pager
+          :tones="community.tones ? Object.keys(community.tones) : []"
         />
       </div>
     </div>
@@ -53,19 +51,31 @@
 </template>
 
 <script>
+import SimplePeer from 'simple-peer';
+
 import Navbar from '../components/Global/Navbar';
 import SectionTitle from '../components/SectionTitle';
 import Enabler from '../components/Enabler';
+import Scanner from '../components/Portable/Scanner';
+import Pager from '../components/Portable/Pager';
 
 export default {
   components: {
     Navbar,
     SectionTitle,
     Enabler,
+    Scanner,
+    Pager,
   },
   data() {
     return {
+      userId: Math.random(),
+      ws: this.$ws('ws://localhost:8081'),
       emergency: false,
+      initiators: {},
+      receivers: {},
+      initiatorSdps: [],
+      receiverSdps: [],
     };
   },
   methods: {
@@ -74,6 +84,87 @@ export default {
     },
     onEmergency() {
       this.emergency = !this.emergency;
+    },
+    initiator() {
+      const initiator = new SimplePeer({ initiator: true, trickle: false });
+
+      initiator.on('error', err => console.log('error', err));
+
+      initiator.on('signal', (data) => {
+        console.log(`SIGNAL, ${data}`);
+        // Get SDP from initial construction
+        if (!this.initiatorSdps.includes(data.sdp) && data.type === 'offer') {
+          // save
+          this.initiatorSdps.push(data.sdp);
+          // Send offer to other clients over socket
+          this.ws.send(JSON.stringify({
+            id: this.userId,
+            connection: data,
+          }));
+        }
+      });
+
+      // Function run upon successfully connecting to peer
+      initiator.on('connect', () => {
+        console.log('CONNECT');
+        setInterval(() => {
+          console.log('sent from initiator');
+          initiator.send(`sent from initiator ${initiator._id}`);
+        }, 3000);
+      });
+
+      // Function run upon receiving data from peer
+      initiator.on('data', (data) => {
+        console.log(data);
+      });
+
+      // Function run upon closing connection with peer
+      initiator.on('close', () => {
+        console.log('initiator disconnected');
+        initiator.destroy();
+        delete origin[initiator._id];
+      });
+
+      return initiator;
+    },
+    receiver({ id, connection }) {
+      const receiver = new SimplePeer({ initiator: false, trickle: false });
+
+      receiver.signal(id, connection);
+
+      receiver.on('error', err => console.log('error', err));
+
+      receiver.on('signal', (data) => {
+        if (!this.receiverSdps.includes(data.sdp) && data.type === 'answer') {
+          console.log(`RECEIVER SIG, ${data}`);
+          this.receiverSdps.push(data.sdp);
+
+          this.ws.send(JSON.stringify({
+            id,
+            connection: data,
+          }));
+        }
+      });
+
+      receiver.on('connect', () => {
+        console.log('CONNECT');
+        setInterval(() => {
+          console.log('sent from receiver');
+          receiver.send(`send from receive ${receiver._id}`);
+        }, 3000);
+      });
+
+      receiver.on('data', (data) => {
+        console.log(`data: ${data}`);
+      });
+
+      receiver.on('close', () => {
+        console.log('receiver disconnected');
+        receiver.destroy();
+        delete this.incoming[receiver._id];
+      });
+
+      return receiver;
     },
   },
   computed: {
@@ -86,30 +177,48 @@ export default {
     tx() {
       return this.$store.state.portable.tx;
     },
+    scanningChannels() {
+      return this.$store.state.portable.scanningChannels;
+    },
+    pagingChannels() {
+      return this.$store.state.portable.pagingChannels;
+    },
   },
   created() {
-    const ws = this.$ws('ws://localhost:8080');
+    this.ws.onopen = () => {
+      console.log(this.ws);
 
-    ws.onopen = () => {
-      console.log(ws);
-
-      ws.send(JSON.stringify({
+      this.ws.send(JSON.stringify({
         request: 'clientCount',
       }));
 
-      ws.onmessage = ({ data }) => {
-        let json;
-
+      this.ws.onmessage = ({ data }) => {
         try {
-          json = JSON.parse(data);
+          const { type, payload } = JSON.parse(data);
+
+          switch (type) {
+            case 'community': {
+              console.log(payload);
+              this.$store.dispatch('setSessionCommunity', payload);
+              console.log(this.$store.state.session);
+              break;
+            }
+            case 'clientCount': {
+              for (let i = 0; i < payload - 1; i += 1) {
+                const instance = this.initiator();
+
+                this.initiators[instance._id] = {
+                  instance,
+                  answered: false,
+                };
+              }
+              break;
+            }
+            default:
+              break;
+          }
         } catch (error) {
           console.log(error);
-        }
-
-        if (json.type === 'community') {
-          console.log(json.payload);
-          this.$store.dispatch('setSessionCommunity', json.payload);
-          console.log(this.$store.state.session);
         }
       };
     };

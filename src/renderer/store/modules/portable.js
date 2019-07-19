@@ -19,7 +19,8 @@ const mutations = {
     ];
   },
   REMOVE_SCANNING_CHANNEL(state, channel) {
-    state.scanningChannels.filter(scanningChannel => scanningChannel === channel);
+    state.scanningChannels = state.scanningChannels
+      .filter(scanningChannel => scanningChannel !== channel);
   },
   ADD_PAGING_CHANNEL(state, channel) {
     state.pagingChannels = [
@@ -28,7 +29,8 @@ const mutations = {
     ];
   },
   REMOVE_PAGING_CHANNEL(state, channel) {
-    state.pagingChannels.map(pagingChannel => pagingChannel === channel);
+    state.pagingChannels = state.pagingChannels
+      .filter(pagingChannel => pagingChannel !== channel);
   },
 };
 
