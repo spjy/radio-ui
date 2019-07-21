@@ -26,6 +26,11 @@ export default new Router({
       component: require('@/pages/Settings').default,
     },
     {
+      path: '/test',
+      name: 'test',
+      component: require('@/pages/Test').default,
+    },
+    {
       path: '*',
       redirect: '/',
     },

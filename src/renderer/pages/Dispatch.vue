@@ -128,47 +128,14 @@
             :tabs="['Msel1', 'Msel2', 'Msel3']"
             selectedInitial="Msel1"
             activationType="Tx"
-          >
-            <template v-slot:Msel1>
-              <div v-for="channel in channelsMultipleSelected['Msel1']" :key="channel">
-                <TxIndicator />
-                {{ channel }}
-              </div>
-            </template>
-            <template v-slot:Msel2>
-              <div v-for="channel in channelsMultipleSelected['Msel2']" :key="channel">
-                <TxIndicator /> {{ channel }}
-              </div>
-            </template>
-            <template v-slot:Msel3>
-              <div v-for="channel in channelsMultipleSelected['Msel3']" :key="channel">
-                <TxIndicator /> {{ channel }}
-              </div>
-            </template>
-          </Tabs>
+          />
           <SectionTitle title="Patch" />
           <Tabs
             class="mb-3"
             :tabs="['Patch1', 'Patch2', 'Patch3']"
             selectedInitial="Patch1"
             activationType="Patch"
-          >
-            <template v-slot:Patch1>
-              <div v-for="channel in channelsPatched['Patch1']" :key="channel">
-                <TxIndicator /> {{ channel }}
-              </div>
-            </template>
-            <template v-slot:Patch2>
-              <div v-for="channel in channelsPatched['Patch2']" :key="channel">
-                <TxIndicator /> {{ channel }}
-              </div>
-            </template>
-            <template v-slot:Patch3>
-              <div v-for="channel in channelsPatched['Patch3']" :key="channel">
-                <TxIndicator /> {{ channel }}
-              </div>
-            </template>
-          </Tabs>
+          />
         </div>
       </div>
     </div>
@@ -197,12 +164,6 @@
       },
     },
     computed: {
-      channelsMultipleSelected() {
-        return this.$store.state.multiselect.multipleSelections;
-      },
-      channelsPatched() {
-        return this.$store.state.patch.patches;
-      },
       community() {
         if (this.$store.state.session) {
           return this.$store.state.session.community;

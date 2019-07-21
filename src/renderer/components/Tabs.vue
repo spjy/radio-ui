@@ -38,13 +38,39 @@
           </div>
         </div>
       </div>
-      <slot :name="tab"></slot>
+      <div
+        v-for="tab in tabs"
+        :key="tab"
+      >
+        <div v-for="channel in channels[tab]" :key="channel">
+          <TxIndicator /> {{ channel }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import TxIndicator from './TxIndicator';
+
 export default {
+  components: {
+    TxIndicator,
+  },
+  props: {
+    tabs: {
+      type: Array,
+      required: true,
+    },
+    selectedInitial: {
+      type: String,
+      required: true,
+    },
+    activationType: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       selected: this.selectedInitial,
@@ -63,87 +89,81 @@ export default {
 
       // Disable selecting if changing tabs
       if (this.selecting && this.activationType === 'Tx') {
-        this.$store.dispatch('toggleSelectingChannel');
+        this.$store.dispatch('dispatch/toggleSelectingChannel');
       } else if (this.selecting && this.activationType === 'Patch') {
-        this.$store.dispatch('toggleSelectingPatch');
+        this.$store.dispatch('dispatch/toggleSelectingPatch');
       }
 
       if (this.active && this.activationType === 'Tx') {
-        this.$store.dispatch('toggleTxActive');
+        this.$store.dispatch('dispatch/toggleTxActive');
       } else if (this.active && this.activationType === 'Patch') {
-        this.$store.dispatch('togglePatchActive');
+        this.$store.dispatch('dispatch/togglePatchActive');
       }
 
       // Change profile when switching tabs
       if (this.activationType === 'Tx') {
-        this.$store.dispatch('setMultipleSelectProfile', tab);
+        this.$store.dispatch('dispatch/setMultipleSelectProfile', tab);
       } else if (this.activationType === 'Patch') {
-        this.$store.dispatch('setPatchesProfile', tab);
+        this.$store.dispatch('dispatch/setPatchesProfile', tab);
       }
     },
     onSelectAction(tab) {
       if (this.activationType === 'Tx') {
-        this.$store.dispatch('toggleSelectingChannel');
-        this.$store.dispatch('setMultipleSelectProfile', tab);
+        this.$store.dispatch('dispatch/toggleSelectingChannel');
+        this.$store.dispatch('dispatch/setMultipleSelectProfile', tab);
       } else if (this.activationType === 'Patch') {
-        this.$store.dispatch('toggleSelectingPatch');
-        this.$store.dispatch('setPatchesProfile', tab);
+        this.$store.dispatch('dispatch/toggleSelectingPatch');
+        this.$store.dispatch('dispatch/setPatchesProfile', tab);
       }
     },
     onActivate() {
       if (this.activationType === 'Tx') {
-        this.$store.dispatch('toggleTxActive');
+        this.$store.dispatch('dispatch/toggleTxActive');
       } else if (this.activationType === 'Patch') {
-        this.$store.dispatch('togglePatchActive');
+        this.$store.dispatch('dispatch/togglePatchActive');
       }
     },
   },
   computed: {
     selecting() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.multiselect.selecting;
+        return this.$store.state.dispatch.multiselect.selecting;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.patch.selecting;
+        return this.$store.state.dispatch.patch.selecting;
       }
       return false;
     },
     multipleSelect() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.multiselect.multipleSelect;
+        return this.$store.state.dispatch.multiselect.multipleSelect;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.patch.patch;
+        return this.$store.state.dispatch.patch.patch;
       }
       return null;
     },
     multipleSelections() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.multiselect.multipleSelections;
+        return this.$store.state.dispatch.multiselect.multipleSelections;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.patch.patches;
+        return this.$store.state.dispatch.patch.patches;
       }
       return {};
     },
     active() {
       if (this.activationType === 'Tx') {
-        return this.$store.state.multiselect.txActive;
+        return this.$store.state.dispatch.multiselect.txActive;
       } else if (this.activationType === 'Patch') {
-        return this.$store.state.patch.patchActive;
+        return this.$store.state.dispatch.patch.patchActive;
       }
       return false;
     },
-  },
-  props: {
-    tabs: {
-      type: Array,
-      required: true,
-    },
-    selectedInitial: {
-      type: String,
-      required: true,
-    },
-    activationType: {
-      type: String,
-      required: true,
+    channels() {
+      if (this.activationType === 'Tx') {
+        return this.$store.state.dispatch.multiselect.multipleSelections;
+      } else if (this.activationType === 'Patch') {
+        return this.$store.state.dispatch.patch.patches;
+      }
+      return [];
     },
   },
 };

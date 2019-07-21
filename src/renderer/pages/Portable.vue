@@ -23,7 +23,10 @@
       >
         <SectionTitle title="Channel" />
         <div class="relative">
-          <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-3 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+          <select
+            class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-3 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            @change="onSelectChannel"
+          >
             <option selected disabled>Select Channel</option>
             <option v-for="channel in community.channels" :value="channel" :key="channel">{{ channel }}</option>
           </select>
@@ -76,6 +79,7 @@ export default {
       receivers: {},
       initiatorSdps: [],
       receiverSdps: [],
+      channel: null,
     };
   },
   methods: {
@@ -84,6 +88,9 @@ export default {
     },
     onEmergency() {
       this.emergency = !this.emergency;
+    },
+    onSelectChannel(event) {
+      this.channel = event.target.value;
     },
     initiator() {
       const initiator = new SimplePeer({ initiator: true, trickle: false });
@@ -98,8 +105,11 @@ export default {
           this.initiatorSdps.push(data.sdp);
           // Send offer to other clients over socket
           this.ws.send(JSON.stringify({
-            id: this.userId,
-            connection: data,
+            type: 'connection',
+            payload: {
+              id: this.userId,
+              connection: data,
+            },
           }));
         }
       });
@@ -122,7 +132,7 @@ export default {
       initiator.on('close', () => {
         console.log('initiator disconnected');
         initiator.destroy();
-        delete origin[initiator._id];
+        delete this.initiators[initiator._id];
       });
 
       return initiator;
@@ -130,7 +140,7 @@ export default {
     receiver({ id, connection }) {
       const receiver = new SimplePeer({ initiator: false, trickle: false });
 
-      receiver.signal(id, connection);
+      receiver.signal(connection);
 
       receiver.on('error', err => console.log('error', err));
 
@@ -140,8 +150,11 @@ export default {
           this.receiverSdps.push(data.sdp);
 
           this.ws.send(JSON.stringify({
-            id,
-            connection: data,
+            type: 'connection',
+            payload: {
+              id,
+              connection: data,
+            },
           }));
         }
       });
@@ -161,7 +174,7 @@ export default {
       receiver.on('close', () => {
         console.log('receiver disconnected');
         receiver.destroy();
-        delete this.incoming[receiver._id];
+        delete this.receivers[receiver._id];
       });
 
       return receiver;
@@ -186,10 +199,8 @@ export default {
   },
   created() {
     this.ws.onopen = () => {
-      console.log(this.ws);
-
       this.ws.send(JSON.stringify({
-        request: 'clientCount',
+        type: 'clientCount',
       }));
 
       this.ws.onmessage = ({ data }) => {
@@ -201,6 +212,46 @@ export default {
               console.log(payload);
               this.$store.dispatch('setSessionCommunity', payload);
               console.log(this.$store.state.session);
+              break;
+            }
+            case 'connection': {
+              // Accept offer and make answer
+              switch (payload.connection.type) {
+                // Initiating a connection between self and another client
+                case 'offer': {
+                  if (!this.initiatorSdps.includes(payload.connection.sdp)
+                    && !Object.keys(this.receivers).includes(payload.id)) {
+                    // Create a receiver instance to connect to offer
+                    const receiverInstance = this.receiver(payload);
+                    this.receivers[payload.id] = receiverInstance;
+                  }
+                  break;
+                }
+                case 'answer':
+                  if (!this.receiverSdps.includes(payload.connection.sdp)
+                    && payload.id === this.userId) {
+                    // Find an initiator that has not been used yet and complete the connection
+                    Object.keys(this.initiators).some((initiator) => {
+                      if (!this.initiators[initiator].answered) {
+                        this.initiators[initiator].instance.signal(payload.connection);
+                        this.initiators[initiator].answered = true;
+                        return true;
+                      }
+                      return false;
+                    });
+                    // eslint-disable-next-line
+                    // for (initiator in this.initiators) {
+                    //   if (!this.initiators[initiator].answered) {
+                    //     this.initiators[initiator].instance.signal(payload.connection);
+                    //     this.initiators[initiator].answered = true;
+                    //     break;
+                    //   }
+                    // }
+                  }
+                  break;
+                default:
+                  break;
+              }
               break;
             }
             case 'clientCount': {

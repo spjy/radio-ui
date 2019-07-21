@@ -75,36 +75,36 @@ export default {
   methods: {
     onSelectChannel() {
       if (this.multipleSelectSelecting) {
-        this.$store.dispatch('toggleSelectedChannel', this.channel);
+        this.$store.dispatch('dispatch/toggleSelectedChannel', this.channel);
       }
 
       if (this.patchSelecting) {
-        this.$store.dispatch('togglePatchChannel', this.channel);
+        this.$store.dispatch('dispatch/togglePatchChannel', this.channel);
       }
     },
   },
   computed: {
     multipleSelectSelecting() {
-      return this.$store.state.multiselect.selecting;
+      return this.$store.state.dispatch.multiselect.selecting;
     },
     patchSelecting() {
-      return this.$store.state.patch.selecting;
+      return this.$store.state.dispatch.patch.selecting;
     },
     multipleSelectProfile() {
-      return this.$store.state.multiselect.multipleSelect;
+      return this.$store.state.dispatch.multiselect.multipleSelect;
     },
     patchProfile() {
-      return this.$store.state.patch.patch;
+      return this.$store.state.dispatch.patch.patch;
     },
     multipleSelectSelected() {
-      if (this.$store.state.multiselect
+      if (this.$store.state.dispatch.multiselect
         .multipleSelections[this.multipleSelectProfile].includes(this.channel)) {
         return true;
       }
       return false;
     },
     patchSelected() {
-      if (this.$store.state.patch
+      if (this.$store.state.dispatch.patch
         .patches[this.patchProfile].includes(this.channel)) {
         return true;
       }
