@@ -15,7 +15,7 @@ export default {
   mounted() {
     const p = new Peer({ initiator: window.location.hash === '#1', trickle: false });
 
-    p.on('error', err => console.log('error', err));
+    p.on('error', (err) => console.log('error', err));
 
     p.on('signal', (data) => {
       console.log('SIGNAL', JSON.stringify(data));

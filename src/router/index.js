@@ -1,10 +1,10 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router';
 
-import Picker from '@/pages/Picker'
-import Dispatch from '@/pages/Dispatch'
-import Portable from '@/pages/Portable'
-import Settings from '@/pages/Settings'
-import Test from '@/pages/Test'
+import Picker from '@/pages/Picker.vue';
+import Dispatch from '@/pages/Dispatch.vue';
+import Portable from '@/pages/Portable.vue';
+import Settings from '@/pages/Settings.vue';
+import Test from '@/pages/Test.vue';
 
 export default createRouter({
   history: createWebHashHistory(),

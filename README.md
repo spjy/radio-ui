@@ -1,4 +1,4 @@
-# radio-ui-v
+# radio-ui
 
 ## Project setup
 ```

@@ -1,14 +1,15 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import axios from 'axios'
+import { createApp } from 'vue';
+import axios from 'axios';
 
-import './index.css';
+import App from './App.vue';
 import router from './router';
 import store from './store';
 
-const app = createApp(App)
+import './index.css';
 
-app.config.globalProperties.$http = axios
+const app = createApp(App);
+
+app.config.globalProperties.$http = axios;
 
 app.config.globalProperties.$ws = (ip) => {
   const ws = new WebSocket(ip);
@@ -29,6 +30,4 @@ app.config.globalProperties.$ws = (ip) => {
   return ws;
 };
 
-app.use(router)
-app.use(store)
-app.mount('#app')
+app.use(store).use(router).mount('#app');
