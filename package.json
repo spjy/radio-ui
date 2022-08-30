@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "moment-timezone": "^0.5.33",
+    "moment-timezone": "^0.5.35",
     "simple-peer": "^9.11.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
